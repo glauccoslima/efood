@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <!-- Define a codificação de caracteres como UTF-8 -->
+    <meta charset="utf-8" />
+    <!-- Define o ícone da aba do navegador -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
+    <!-- Configura a viewport para garantir que a página seja responsiva -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Define a cor do tema para navegadores móveis -->
+    <meta name="theme-color" content="#000000" />
+    <!-- Descrição do site para motores de busca e compartilhamento social -->
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <!-- Ícone para dispositivos Apple -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
+    <!--
+      manifest.json fornece metadados usados quando seu aplicativo web é instalado
+      no dispositivo móvel ou desktop do usuário. Veja mais em:
+      https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Note o uso de %PUBLIC_URL% nas tags acima.
+      Ele será substituído pelo URL da pasta `public` durante a build.
+      Apenas arquivos dentro da pasta `public` podem ser referenciados a partir do HTML.
+
+      Ao contrário de "/favicon.ico" ou "favicon.ico", "%PUBLIC_URL%/favicon.ico"
+      funcionará corretamente tanto com roteamento do lado do cliente quanto com um URL público não raiz.
+      Saiba como configurar um URL público não raiz executando `npm run build`.
+    -->
+    <!-- Título da página -->
+    <title>efood</title>
+    <!-- Pré-conexão para melhorar o desempenho ao carregar fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Importa a fonte Roboto do Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Mensagem exibida se o JavaScript estiver desativado no navegador do usuário -->
+    <noscript
+      >Você precisa ativar o JavaScript para executar este aplicativo.</noscript
+    >
+    <!-- Div onde o aplicativo React será montado -->
+    <div id="root"></div>
+    <!--
+      Este arquivo HTML é um template.
+      Se você abri-lo diretamente no navegador, verá uma página em branco.
+
+      Você pode adicionar webfonts, meta tags ou analytics a este arquivo.
+      A etapa de build colocará os scripts empacotados na tag <body>.
+
+      Para iniciar o desenvolvimento, execute `npm start` ou `yarn start`.
+      Para criar um bundle de produção, use `npm run build` ou `yarn build`.
+    -->
+  </body>
+</html>

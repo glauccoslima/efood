@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true, // Indica que o código será executado em um ambiente de navegador
+    "es2021": true // Utiliza as funcionalidades do ECMAScript 2021
+  },
+  "extends": [
+    "eslint:recommended", // Extende as regras recomendadas pelo ESLint
+    "plugin:@typescript-eslint/recommended", // Recomendações específicas para TypeScript
+    "plugin:react/recommended", // Recomendações para React
+    "plugin:prettier/recommended" // Integração com Prettier para formatação de código
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser", // Parser para TypeScript
+  "parserOptions": {
+    "ecmaVersion": "latest", // Usa a versão mais recente do ECMAScript
+    "sourceType": "module" // Indica que o código usa módulos ES
+  },
+  "plugins": [
+    "@typescript-eslint", // Plugin do ESLint para TypeScript
+    "react", // Plugin do ESLint para React
+    "react-hooks" // Plugin do ESLint para regras dos Hooks do React
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error", // Garante que os hooks do React sejam usados corretamente
+    "react-hooks/exhaustive-deps": "warn", // Alerta para dependências ausentes nos hooks de efeito
+    "react/prop-types": "off", // Desativa a necessidade de PropTypes, útil para TypeScript
+    "react/react-in-jsx-scope": "off", // Não é necessário importar React no escopo para JSX em React 17+
+    "@typescript-eslint/explicit-module-boundary-types": "off" // Permite omitir tipos de retorno em funções de módulo
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // Auto-detecção da versão do React instalada
+    }
+  }
+}

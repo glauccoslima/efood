@@ -1,0 +1,17 @@
+# Define que este é o arquivo de configuração raiz para o EditorConfig
+root = true
+
+# Aplica as configurações a todos os arquivos
+[*]
+# Define o estilo de indentação como espaços
+indent_style = space
+# Define o tamanho da indentação como 2 espaços
+indent_size = 2
+# Define o tipo de final de linha como LF (Line Feed)
+end_of_line = lf
+# Define a codificação de caracteres como UTF-8
+charset = utf-8
+# Remove espaços em branco no final das linhas automaticamente
+trim_trailing_whitespace = true
+# Insere uma nova linha no final dos arquivos automaticamente
+insert_final_newline = true
