@@ -2,6 +2,8 @@
 
 Este projeto é um sistema de delivery interativo chamado **efood**, onde os usuários podem explorar restaurantes, visualizar menus e fazer pedidos online.
 
+🌐 [**Visite o site!**](https://efood-two-flax.vercel.app/) 👈
+
 ## Índice
 
 - [Sobre o Projeto](#sobre-o-projeto)
@@ -95,7 +97,6 @@ O objetivo deste projeto é criar uma aplicação web para pedidos online, permi
 ---
 
 ```plaintext
-|-- Nova pasta (3)
     |-- .editorconfig
     |-- .eslintrc.json
     |-- .gitignore
