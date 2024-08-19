@@ -66,6 +66,7 @@ const Checkout: React.FC = () => {
   const { items } = useSelector((state: RootReducer) => state.cart)
   const [error, setError] = useState<string | null>(null)
 
+  // Configuração do formulário usando Formik e Yup para validação
   const form = useFormik({
     initialValues: {
       receiver: '',
@@ -156,6 +157,7 @@ const Checkout: React.FC = () => {
     }
   })
 
+  // Função para mostrar a seção de pagamento
   const showInfosPayment = () => {
     if (verifyFields(['receiver', 'adress', 'city', 'zipCode', 'number'])) {
       dispatch(closeDelivery())
@@ -165,11 +167,13 @@ const Checkout: React.FC = () => {
     }
   }
 
+  // Função para mostrar a seção de entrega
   const showInfosDelivery = () => {
     dispatch(closePayment()) // Fecha a seção de pagamento
     dispatch(openDelivery()) // Reabre a seção de entrega
   }
 
+  // Função para verificar se os campos obrigatórios estão preenchidos
   const verifyFields = (fields: Array<keyof typeof form.values>) => {
     let areFieldsCorrect = true
     for (let i = 0; i < fields.length; i++) {
@@ -180,6 +184,7 @@ const Checkout: React.FC = () => {
     return areFieldsCorrect
   }
 
+  // Função para mostrar a seção de confirmação
   const showInfosConfirmation = () => {
     form.handleSubmit() // Submete o formulário corretamente
     if (form.isValid) {
@@ -190,11 +195,13 @@ const Checkout: React.FC = () => {
     }
   }
 
+  // Função para abrir o carrinho
   const openCart = () => {
     dispatch(closeDelivery())
     dispatch(open())
   }
 
+  // Função para fechar o checkout e limpar o carrinho
   const closeCheckout = () => {
     dispatch(cleanCart())
     dispatch(closeConfirmation())
@@ -203,6 +210,7 @@ const Checkout: React.FC = () => {
   return (
     <>
       <form onSubmit={form.handleSubmit}>
+        {/* Seção de entrega */}
         <Container className={deliveryIsOpen ? 'is-open' : ''}>
           <Overlay onClick={closeCheckout} />
           <S.AsideCheckout>
@@ -308,6 +316,7 @@ const Checkout: React.FC = () => {
           </S.AsideCheckout>
         </Container>
 
+        {/* Seção de pagamento */}
         <Container className={paymentIsOpen ? 'is-open' : ''}>
           <Overlay onClick={closeCheckout} />
           <S.AsideCheckout>
@@ -344,6 +353,16 @@ const Checkout: React.FC = () => {
                     )
                   }}
                   onBlur={form.handleBlur}
+                  onKeyDown={(e) => {
+                    if (
+                      !/[0-9]/.test(e.key) &&
+                      !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(
+                        e.key
+                      )
+                    ) {
+                      e.preventDefault()
+                    }
+                  }}
                   maxLength={19}
                 />
               </S.InputGroup>
@@ -427,6 +446,7 @@ const Checkout: React.FC = () => {
         </Container>
       </form>
 
+      {/* Seção de confirmação */}
       <Container className={confirmationIsOpen ? 'is-open' : ''}>
         <Overlay onClick={closeCheckout} />
         <S.AsideCheckout>
