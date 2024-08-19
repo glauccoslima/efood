@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -8,12 +9,12 @@ import { Container, Overlay } from '../Cart/styles'
 
 import { open, cleanCart } from '../../store/reducers/cart'
 import {
-  openDelivery,
   closeDelivery,
   openPayment,
   closePayment,
   openConfirmation,
-  closeConfirmation
+  closeConfirmation,
+  openDelivery
 } from '../../store/reducers/checkout'
 
 import { RootReducer } from '../../store'
@@ -56,73 +57,29 @@ const formatZipCode = (value: string) => {
 }
 
 // Componente principal do processo de Checkout
-const Checkout = () => {
-  // Define a mutation de compra com o hook usePurchaseMutation
+const Checkout: React.FC = () => {
+  const dispatch = useDispatch()
   const [purchase, { data, isLoading }] = usePurchaseMutation()
-
-  // Obtém o estado do Redux relacionado ao processo de checkout
   const { deliveryIsOpen, paymentIsOpen, confirmationIsOpen } = useSelector(
     (state: RootReducer) => state.checkout
   )
-
-  // Obtém os itens do carrinho de compras do estado do Redux
   const { items } = useSelector((state: RootReducer) => state.cart)
+  const [error, setError] = useState<string | null>(null)
 
-  // Hook para despachar ações para o Redux
-  const dispatch = useDispatch()
-
-  // Função para abrir o carrinho e fechar a seção de entrega
-  const openCart = () => {
-    dispatch(closeDelivery())
-    dispatch(open())
-  }
-
-  // Função para verificar os campos de entrega e abrir a seção de pagamento
-  const showInfosPayment = () => {
-    if (verifyFields(deliveryFields)) {
-      dispatch(closeDelivery())
-      dispatch(openPayment())
-    }
-  }
-
-  // Função para retornar à seção de entrega a partir da seção de pagamento
-  const showInfosDelivery = () => {
-    dispatch(closePayment())
-    dispatch(openDelivery())
-  }
-
-  // Função para submeter o formulário e abrir a seção de confirmação
-  const showInfosConfirmation = () => {
-    form.handleSubmit()
-    dispatch(closePayment())
-    dispatch(openConfirmation())
-  }
-
-  // Função para limpar os itens do carrinho após a compra
-  const removeCartItems = () => {
-    dispatch(cleanCart())
-  }
-
-  // Função para fechar o checkout e limpar o carrinho
-  const closeCheckout = () => {
-    removeCartItems()
-    dispatch(closeConfirmation())
-  }
-
-  // Configuração do formulário com Formik e validação com Yup
+  // Configuração do formulário usando Formik e Yup para validação
   const form = useFormik({
     initialValues: {
-      receiver: '', // Nome do receptor da entrega
-      adress: '', // Endereço de entrega
-      city: '', // Cidade de entrega
-      zipCode: '', // CEP de entrega
-      number: '', // Número da residência
-      complement: '', // Complemento do endereço
-      nameOnCard: '', // Nome no cartão de crédito
-      cardNumber: '', // Número do cartão de crédito
-      cardSecurityCode: '', // Código de segurança do cartão
-      expiresMonth: '', // Mês de validade do cartão
-      expiresYear: '' // Ano de validade do cartão
+      receiver: '',
+      adress: '',
+      city: '',
+      zipCode: '',
+      number: '',
+      complement: '',
+      nameOnCard: '',
+      cardNumber: '',
+      cardSecurityCode: '',
+      expiresMonth: '',
+      expiresYear: ''
     },
     validationSchema: Yup.object({
       receiver: Yup.string()
@@ -135,8 +92,8 @@ const Checkout = () => {
         .min(3, 'A cidade precisa ter pelo menos 3 caracteres')
         .required('O campo é obrigatório'),
       zipCode: Yup.string()
-        .min(9, 'O cep precisa ter 8 caracteres')
-        .max(9, 'O cep precisa ter 8 caracteres')
+        .min(9, 'O CEP precisa ter 8 caracteres')
+        .max(9, 'O CEP precisa ter 8 caracteres')
         .required('O campo é obrigatório'),
       number: Yup.string()
         .min(1, 'O número precisa ter pelo menos um caractere')
@@ -162,84 +119,108 @@ const Checkout = () => {
         .max(4, 'O ano de vencimento deve ter 4 dígitos')
         .required('O campo é obrigatório')
     }),
-    onSubmit: (values, { resetForm }) => {
-      // Envia os dados da compra para a API
-      purchase({
-        products: items.map((item) => ({
-          id: item.id,
-          price: item.preco as number
-        })),
-        delivery: {
-          receiver: values.receiver,
-          address: {
-            description: values.adress,
-            city: values.city,
-            zipCode: values.zipCode,
-            number: Number(values.number),
-            complement: values.complement
-          }
-        },
-        payment: {
-          card: {
-            name: values.nameOnCard,
-            number: values.cardNumber,
-            code: Number(values.cardSecurityCode),
-            expires: {
-              month: Number(values.expiresMonth),
-              year: Number(values.expiresYear)
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await purchase({
+          products: items.map((item) => ({
+            id: item.id,
+            price: item.preco
+          })),
+          delivery: {
+            receiver: values.receiver,
+            address: {
+              description: values.adress,
+              city: values.city,
+              zipCode: values.zipCode,
+              number: Number(values.number),
+              complement: values.complement
+            }
+          },
+          payment: {
+            card: {
+              name: values.nameOnCard,
+              number: values.cardNumber,
+              code: Number(values.cardSecurityCode),
+              expires: {
+                month: Number(values.expiresMonth),
+                year: Number(values.expiresYear)
+              }
             }
           }
-        }
-      }).catch((error) => {
-        // Tratamento de erro em caso de falha na compra
-        console.error('Error during purchase:', error)
-      })
-      resetForm()
+        }).unwrap()
+        dispatch(closePayment())
+        dispatch(openConfirmation())
+        resetForm()
+      } catch {
+        setError('Erro ao processar a compra. Tente novamente.')
+      }
     }
   })
 
-  // Campos obrigatórios para validação antes de prosseguir para o pagamento
-  const deliveryFields = ['receiver', 'adress', 'city', 'zipCode', 'number']
-
-  // Função para verificar se todos os campos necessários foram preenchidos corretamente
-  const verifyFields = (fields: string[]) => {
-    let areFieldsCorrect = true
-
-    if (!form.dirty) {
-      return false
+  // Função para mostrar a seção de pagamento
+  const showInfosPayment = () => {
+    if (verifyFields(['receiver', 'adress', 'city', 'zipCode', 'number'])) {
+      dispatch(closeDelivery())
+      dispatch(openPayment())
+    } else {
+      setError('Por favor, preencha todos os campos obrigatórios.')
     }
+  }
 
+  // Função para mostrar a seção de entrega
+  const showInfosDelivery = () => {
+    dispatch(closePayment()) // Fecha a seção de pagamento
+    dispatch(openDelivery()) // Reabre a seção de entrega
+  }
+
+  // Função para verificar se os campos obrigatórios estão preenchidos
+  const verifyFields = (fields: Array<keyof typeof form.values>) => {
+    let areFieldsCorrect = true
     for (let i = 0; i < fields.length; i++) {
-      if (checkInputHasError(fields[i])) {
+      if (!form.values[fields[i]]) {
         areFieldsCorrect = false
       }
     }
     return areFieldsCorrect
   }
 
-  // Função que verifica se um campo específico tem erros
-  const checkInputHasError = (fieldName: string) => {
-    const isTouched = fieldName in form.touched
-    const isInvalid = fieldName in form.errors
-    const hasError = isTouched && isInvalid
+  // Função para mostrar a seção de confirmação
+  const showInfosConfirmation = () => {
+    form.handleSubmit() // Submete o formulário corretamente
+    if (form.isValid) {
+      dispatch(closePayment())
+      dispatch(openConfirmation())
+    } else {
+      setError('Por favor, preencha todos os campos obrigatórios.')
+    }
+  }
 
-    return hasError
+  // Função para abrir o carrinho
+  const openCart = () => {
+    dispatch(closeDelivery())
+    dispatch(open())
+  }
+
+  // Função para fechar o checkout e limpar o carrinho
+  const closeCheckout = () => {
+    dispatch(cleanCart())
+    dispatch(closeConfirmation())
   }
 
   return (
     <>
-      {/* Formulário de checkout */}
       <form onSubmit={form.handleSubmit}>
-        {/* Seção de entrega do formulário */}
+        {/* Seção de entrega */}
         <Container className={deliveryIsOpen ? 'is-open' : ''}>
           <Overlay onClick={closeCheckout} />
           <S.AsideCheckout>
             <>
               <S.Title>Entrega</S.Title>
+              {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
               <S.InputGroup>
                 <label htmlFor="receiver">Quem irá receber</label>
                 <input
-                  className={checkInputHasError('receiver') ? 'error' : ''}
+                  className={form.errors.receiver ? 'error' : ''}
                   type="text"
                   id="receiver"
                   name="receiver"
@@ -251,7 +232,7 @@ const Checkout = () => {
               <S.InputGroup>
                 <label htmlFor="adress">Endereço</label>
                 <input
-                  className={checkInputHasError('adress') ? 'error' : ''}
+                  className={form.errors.adress ? 'error' : ''}
                   type="text"
                   id="adress"
                   name="adress"
@@ -263,7 +244,7 @@ const Checkout = () => {
               <S.InputGroup>
                 <label htmlFor="city">Cidade</label>
                 <input
-                  className={checkInputHasError('city') ? 'error' : ''}
+                  className={form.errors.city ? 'error' : ''}
                   type="text"
                   id="city"
                   name="city"
@@ -276,7 +257,7 @@ const Checkout = () => {
                 <S.InputGroup>
                   <label htmlFor="zipCode">CEP</label>
                   <input
-                    className={checkInputHasError('zipCode') ? 'error' : ''}
+                    className={form.errors.zipCode ? 'error' : ''}
                     type="text"
                     id="zipCode"
                     name="zipCode"
@@ -294,7 +275,7 @@ const Checkout = () => {
                 <S.InputGroup>
                   <label htmlFor="number">Número</label>
                   <input
-                    className={checkInputHasError('number') ? 'error' : ''}
+                    className={form.errors.number ? 'error' : ''}
                     type="text"
                     id="number"
                     name="number"
@@ -307,7 +288,7 @@ const Checkout = () => {
               <S.InputGroup>
                 <label htmlFor="complement">Complemento (opcional)</label>
                 <input
-                  className={checkInputHasError('complement') ? 'error' : ''}
+                  className={form.errors.complement ? 'error' : ''}
                   type="text"
                   id="complement"
                   name="complement"
@@ -319,7 +300,7 @@ const Checkout = () => {
               <S.ButtonCheckout
                 title="Clique aqui para continuar com o pagamento"
                 type="button"
-                onClick={() => showInfosPayment()}
+                onClick={showInfosPayment}
                 $marginTop="24px"
               >
                 Continuar com o pagamento
@@ -327,24 +308,26 @@ const Checkout = () => {
               <S.ButtonCheckout
                 title="Clique aqui para retornar ao carrinho"
                 type="button"
-                onClick={() => openCart()}
+                onClick={openCart}
               >
                 Voltar para o carrinho
               </S.ButtonCheckout>
             </>
           </S.AsideCheckout>
         </Container>
-        {/* Seção de pagamento do formulário */}
+
+        {/* Seção de pagamento */}
         <Container className={paymentIsOpen ? 'is-open' : ''}>
           <Overlay onClick={closeCheckout} />
           <S.AsideCheckout>
             <S.Title>
               Pagamento - Valor a pagar {priceFormat(getTotalPrice(items))}
             </S.Title>
+            {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
             <S.InputGroup>
               <label htmlFor="nameOnCard">Nome no cartão</label>
               <input
-                className={checkInputHasError('nameOnCard') ? 'error' : ''}
+                className={form.errors.nameOnCard ? 'error' : ''}
                 type="text"
                 id="nameOnCard"
                 name="nameOnCard"
@@ -357,7 +340,7 @@ const Checkout = () => {
               <S.InputGroup $maxWidth="228px">
                 <label htmlFor="cardNumber">Número do cartão</label>
                 <input
-                  className={checkInputHasError('cardNumber') ? 'error' : ''}
+                  className={form.errors.cardNumber ? 'error' : ''}
                   type="text"
                   id="cardNumber"
                   name="cardNumber"
@@ -370,14 +353,23 @@ const Checkout = () => {
                     )
                   }}
                   onBlur={form.handleBlur}
+                  onKeyDown={(e) => {
+                    if (
+                      !/[0-9]/.test(e.key) &&
+                      !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(
+                        e.key
+                      )
+                    ) {
+                      e.preventDefault()
+                    }
+                  }}
+                  maxLength={19}
                 />
               </S.InputGroup>
               <S.InputGroup $maxWidth="87px">
                 <label htmlFor="cardSecurityCode">CVV</label>
                 <input
-                  className={
-                    checkInputHasError('cardSecurityCode') ? 'error' : ''
-                  }
+                  className={form.errors.cardSecurityCode ? 'error' : ''}
                   type="text"
                   id="cardSecurityCode"
                   name="cardSecurityCode"
@@ -390,6 +382,7 @@ const Checkout = () => {
                     )
                   }}
                   onBlur={form.handleBlur}
+                  maxLength={3}
                 />
               </S.InputGroup>
             </S.Row>
@@ -397,7 +390,7 @@ const Checkout = () => {
               <S.InputGroup>
                 <label htmlFor="expiresMonth">Mês de vencimento</label>
                 <input
-                  className={checkInputHasError('expiresMonth') ? 'error' : ''}
+                  className={form.errors.expiresMonth ? 'error' : ''}
                   type="text"
                   id="expiresMonth"
                   name="expiresMonth"
@@ -410,12 +403,13 @@ const Checkout = () => {
                     )
                   }}
                   onBlur={form.handleBlur}
+                  maxLength={2}
                 />
               </S.InputGroup>
               <S.InputGroup>
                 <label htmlFor="expiresYear">Ano de vencimento</label>
                 <input
-                  className={checkInputHasError('expiresYear') ? 'error' : ''}
+                  className={form.errors.expiresYear ? 'error' : ''}
                   type="text"
                   id="expiresYear"
                   name="expiresYear"
@@ -428,6 +422,7 @@ const Checkout = () => {
                     )
                   }}
                   onBlur={form.handleBlur}
+                  maxLength={4}
                 />
               </S.InputGroup>
             </S.Row>
@@ -443,16 +438,17 @@ const Checkout = () => {
             <S.ButtonCheckout
               title="Clique aqui para retornar para a edição de endereço"
               type="button"
-              onClick={showInfosDelivery}
+              onClick={showInfosDelivery} // Chama a função correta para retornar à edição de endereço
             >
               Voltar para a edição de endereço
             </S.ButtonCheckout>
           </S.AsideCheckout>
         </Container>
       </form>
-      {/* Seção de confirmação do pedido */}
+
+      {/* Seção de confirmação */}
       <Container className={confirmationIsOpen ? 'is-open' : ''}>
-        <Overlay onClick={() => closeCheckout()} />
+        <Overlay onClick={closeCheckout} />
         <S.AsideCheckout>
           <S.ContainerOrder>
             {data ? (
@@ -479,7 +475,7 @@ const Checkout = () => {
                 <Button
                   title="Clique aqui para sair da aba de checkout"
                   type="button"
-                  onClick={() => closeCheckout()}
+                  onClick={closeCheckout}
                   aria-label="Concluir checkout"
                 >
                   Concluir

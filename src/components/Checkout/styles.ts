@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { Aside } from '../Cart/styles'
 import { StandardButton } from '../Button/styles'
 import { colors } from '../../styles'
@@ -89,4 +88,12 @@ export const ContainerOrder = styled.div`
 // Estilo para o container lateral do checkout, herdando estilos do Aside
 export const AsideCheckout = styled(Aside)`
   overflow-y: auto; // Permite rolagem vertical
+`
+
+// Estilo para mensagens de erro
+export const ErrorMessage = styled.p`
+  color: ${colors.pink};
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 16px;
 `
