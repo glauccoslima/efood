@@ -4,13 +4,13 @@ import Button from '../Button' // Importa o componente Button
 
 import { open, add } from '../../store/reducers/modal' // Importa as ações open e add do reducer do modal
 
-import * as S from './styles' // Importa os estilos do componente
+import { ProductsCard, Title, Description } from './styles' // Importa os estilos específicos do componente
 
 // Função para obter uma descrição truncada
 const getDescription = (description: string) => {
   // Se a descrição for maior que 175 caracteres, trunca e adiciona '...'
   if (description.length > 175) {
-    return description.slice(0, 160) + '...'
+    return `${description.slice(0, 160)}...`
   }
   return description // Retorna a descrição completa se for menor ou igual a 175 caracteres
 }
@@ -39,13 +39,13 @@ const Product = ({ foto, preco, id, nome, descricao, porcao }: ProductType) => {
   return (
     <>
       {/* Card do produto */}
-      <S.ProductsCard>
+      <ProductsCard>
         {/* Imagem do produto */}
         <img src={foto} alt={nome} />
         {/* Título do produto */}
-        <S.Title>{nome}</S.Title>
+        <Title>{nome}</Title>
         {/* Descrição truncada do produto */}
-        <S.Description>{getDescription(descricao)}</S.Description>
+        <Description>{getDescription(descricao)}</Description>
         {/* Botão para abrir o modal com mais detalhes */}
         <Button
           title="Clique aqui para saber mais detalhes sobre o produto"
@@ -54,7 +54,7 @@ const Product = ({ foto, preco, id, nome, descricao, porcao }: ProductType) => {
         >
           Mais detalhes
         </Button>
-      </S.ProductsCard>
+      </ProductsCard>
     </>
   )
 }

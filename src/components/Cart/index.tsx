@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-
 import Button from '../Button'
 
-import { getTotalPrice, priceFormat } from '../../utils'
+// Importando as funções específicas
+import { getTotalPrice, priceFormat } from '../../utils' // Importando do arquivo utils/index.ts
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
 import { openDelivery } from '../../store/reducers/checkout'
 
-import * as S from './styles'
+// Importações explícitas dos componentes de estilo
+import { Container, Overlay, Aside, CartItem, PriceContent } from './styles'
 
 // Componente principal do carrinho de compras
 const Cart = () => {
@@ -43,17 +44,17 @@ const Cart = () => {
 
   return (
     // Container principal do carrinho
-    <S.Container className={isOpen ? 'is-open' : ''}>
+    <Container className={isOpen ? 'is-open' : ''}>
       {/* Overlay para fechar o carrinho ao clicar fora */}
-      <S.Overlay onClick={closeCart} />
-      <S.Aside>
+      <Overlay onClick={closeCart} />
+      <Aside>
         {items.length > 0 ? (
           <>
             {/* Lista de itens no carrinho */}
             <ul>
               {items.map((item) => (
-                <S.CartItem key={item.id}>
-                  <img src={item.foto} />
+                <CartItem key={item.id}>
+                  <img src={item.foto} alt={item.nome} />
                   <div>
                     <h3>{item.nome}</h3>
                     <span>{priceFormat(item.preco)}</span>
@@ -62,14 +63,14 @@ const Cart = () => {
                     onClick={() => removeFromCart(item.id)}
                     type="button"
                   />
-                </S.CartItem>
+                </CartItem>
               ))}
             </ul>
             {/* Exibição do preço total */}
-            <S.PriceContent>
+            <PriceContent>
               <p>Valor total</p>
               <span>{priceFormat(getTotalPrice(items))}</span>
-            </S.PriceContent>
+            </PriceContent>
             {/* Botão para continuar com a entrega */}
             <Button
               title="Clique aqui para continuar com a entrega"
@@ -96,8 +97,8 @@ const Cart = () => {
             </Button>
           </>
         )}
-      </S.Aside>
-    </S.Container>
+      </Aside>
+    </Container>
   )
 }
 

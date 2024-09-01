@@ -3,7 +3,15 @@ import Tag from '../Tag' // Importa o componente Tag
 
 import star from '../../assets/images/star.svg' // Importa a imagem da estrela
 
-import * as S from './styles' // Importa os estilos do componente
+import {
+  RestaurantCard,
+  Image,
+  InfosTag,
+  Infos,
+  Title,
+  Grade,
+  Description
+} from './styles' // Importa os estilos específicos do componente
 
 // Componente Restaurant que exibe as informações de um restaurante
 const Restaurant = ({
@@ -16,39 +24,36 @@ const Restaurant = ({
   capa // Imagem de capa do restaurante
 }: RestaurantType) => (
   // Card do restaurante
-  <S.RestaurantCard>
+  // skipcq: JS-0415
+  <RestaurantCard>
     {/* Imagem de capa do restaurante */}
-    <S.Image style={{ backgroundImage: `url(${capa})` }}>
+    <Image style={{ backgroundImage: `url(${capa})` }}>
       {/* Tag de informações */}
-      <S.InfosTag className={'message'}>
-        <>
-          {/* Se o restaurante for destaque, exibe duas tags pequenas */}
-          {destacado ? (
-            <>
-              <Tag size="small">Destaque da semana</Tag>
-              <Tag size="small">{tipo}</Tag>
-            </>
-          ) : (
-            // Caso contrário, exibe uma tag grande
-            <Tag size="big">{tipo}</Tag>
-          )}
-        </>
-      </S.InfosTag>
-    </S.Image>
+      <InfosTag className={'message'}>
+        {destacado ? (
+          <>
+            <Tag size="small">Destaque da semana</Tag>
+            <Tag size="small">{tipo}</Tag>
+          </>
+        ) : (
+          <Tag size="big">{tipo}</Tag>
+        )}
+      </InfosTag>
+    </Image>
     {/* Informações do restaurante */}
-    <S.Infos>
+    <Infos>
       <div>
         {/* Título do restaurante */}
-        <S.Title>{titulo}</S.Title>
+        <Title>{titulo}</Title>
         <div>
           {/* Avaliação do restaurante */}
-          <S.Grade>{avaliacao}</S.Grade>
+          <Grade>{avaliacao}</Grade>
           {/* Ícone de estrela */}
           <img src={star} alt="Estrela" />
         </div>
       </div>
       {/* Descrição do restaurante */}
-      <S.Description>{descricao}</S.Description>
+      <Description>{descricao}</Description>
       <div>
         {/* Botão para ver mais detalhes sobre o restaurante */}
         <Button
@@ -59,8 +64,8 @@ const Restaurant = ({
           Saiba mais
         </Button>
       </div>
-    </S.Infos>
-  </S.RestaurantCard>
+    </Infos>
+  </RestaurantCard>
 )
 
 export default Restaurant

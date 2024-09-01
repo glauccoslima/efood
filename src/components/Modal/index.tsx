@@ -9,10 +9,60 @@ import { priceFormat } from '../../utils' // Importa a função de formatação 
 
 import closeImg from '../../assets/images/close.png' // Importa a imagem de fechar
 
-import * as S from './styles' // Importa os estilos do componente
+import { Modal as StyledModal, ModalContent, Content } from './styles' // Importa os estilos do componente
+
+// Define a interface para o item
+interface Item {
+  foto: string
+  nome: string
+  descricao: string
+  porcao: string
+  preco: number
+}
+
+// Define a interface para as props do ModalContentComponent
+interface ModalContentProps {
+  item: Item
+  addToCart: () => void
+  closeModal: () => void
+}
+
+// Componente para o conteúdo do modal
+const ModalContentComponent: React.FC<ModalContentProps> = ({
+  item,
+  addToCart,
+  closeModal
+}) => (
+  <>
+    <header>
+      {/* Ícone de fechar o modal */}
+      <button type="button" onClick={closeModal} aria-label="Fechar modal">
+        <img src={closeImg} alt="Ícone de fechar" />
+      </button>
+    </header>
+    <Content>
+      {/* Imagem do item */}
+      <img src={item.foto} alt={item.nome} />
+      <div>
+        {/* Nome do item */}
+        <h4>{item.nome}</h4>
+        {/* Descrição do item */}
+        <p>{item.descricao}</p>
+        {/* Porção do item */}
+        <p>{`Serve: ${item.porcao}`} </p>
+        {/* Botão para adicionar o item ao carrinho */}
+        <Button
+          title="Clique aqui para adicionar este produto ao carrinho"
+          type="button"
+          onClick={addToCart}
+        >{`Adicionar ao carrinho - ${priceFormat(item.preco)}`}</Button>
+      </div>
+    </Content>
+  </>
+)
 
 // Componente Modal
-const Modal = () => {
+const Modal: React.FC = () => {
   // Obtém o estado do modal do Redux
   const { isOpen, item } = useSelector((state: RootReducer) => state.modal)
 
@@ -33,39 +83,22 @@ const Modal = () => {
 
   return (
     // Container principal do modal
-    <S.Modal className={isOpen ? 'visible' : ''}>
+    <StyledModal className={isOpen ? 'visible' : ''}>
       {/* Conteúdo do modal */}
-      <S.ModalContent className="container">
-        <header>
-          {/* Ícone de fechar o modal */}
-          <img
-            src={closeImg}
-            alt="Ícone de fechar"
-            onClick={() => closeModal()}
-          />
-        </header>
-        <S.Content>
-          {/* Imagem do item */}
-          <img src={item.foto} alt={item.nome} />
-          <div>
-            {/* Nome do item */}
-            <h4>{item.nome}</h4>
-            {/* Descrição do item */}
-            <p>{item.descricao}</p>
-            {/* Porção do item */}
-            <p>{`Serve: ${item.porcao}`} </p>
-            {/* Botão para adicionar o item ao carrinho */}
-            <Button
-              title="Clique aqui para adicionar este produto ao carrinho"
-              type="button"
-              onClick={addToCart}
-            >{`Adicionar ao carrinho - ${priceFormat(item.preco)}`}</Button>
-          </div>
-        </S.Content>
-      </S.ModalContent>
+      <ModalContent className="container">
+        <ModalContentComponent
+          item={item}
+          addToCart={addToCart}
+          closeModal={closeModal}
+        />
+      </ModalContent>
       {/* Overlay para fechar o modal ao clicar fora */}
-      <div className="overlay" onClick={() => closeModal()}></div>
-    </S.Modal>
+      <button
+        className="overlay"
+        onClick={closeModal}
+        aria-label="Fechar modal"
+      ></button>
+    </StyledModal>
   )
 }
 

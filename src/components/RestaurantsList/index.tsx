@@ -22,21 +22,20 @@ const RestaurantsList = ({ restaurants, isLoading }: Props) => {
       <div className="container">
         {/* Lista de restaurantes */}
         <List>
-          {restaurants &&
-            restaurants.map((restaurant) => (
-              // Renderiza o componente Restaurant para cada restaurante na lista
-              <Restaurant
-                key={restaurant.id} // Chave única para cada restaurante
-                id={restaurant.id} // ID do restaurante
-                capa={restaurant.capa} // Imagem de capa do restaurante
-                titulo={restaurant.titulo} // Título do restaurante
-                avaliacao={restaurant.avaliacao} // Avaliação do restaurante
-                destacado={restaurant.destacado} // Indica se o restaurante é destaque
-                tipo={restaurant.tipo} // Tipo de cozinha do restaurante
-                descricao={restaurant.descricao} // Descrição do restaurante
-                cardapio={restaurant.cardapio} // Cardápio do restaurante
-              />
-            ))}
+          {restaurants?.map((restaurant) => (
+            // Renderiza o componente Restaurant para cada restaurante na lista
+            <Restaurant
+              key={restaurant.id} // Chave única para cada restaurante
+              id={restaurant.id} // ID do restaurante
+              capa={restaurant.capa} // Imagem de capa do restaurante
+              titulo={restaurant.titulo} // Título do restaurante
+              avaliacao={restaurant.avaliacao} // Avaliação do restaurante
+              destacado={restaurant.destacado} // Indica se o restaurante é destaque
+              tipo={restaurant.tipo} // Tipo de cozinha do restaurante
+              descricao={restaurant.descricao} // Descrição do restaurante
+              cardapio={restaurant.cardapio} // Cardápio do restaurante
+            />
+          ))}
         </List>
       </div>
     </RestaurantsSection>

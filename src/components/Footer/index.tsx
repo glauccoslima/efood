@@ -3,24 +3,24 @@ import facebook from '../../assets/images/facebook.svg'
 import twitter from '../../assets/images/twitter.svg'
 import instagram from '../../assets/images/instagram.svg'
 
-import * as S from './styles'
+import { FooterContainer, Logos } from './styles'
 
 // Componente de rodapé do site
 const Footer = () => (
   // Container principal do rodapé
-  <S.FooterContainer>
+  <FooterContainer>
     <div className="container">
       {/* Logo da efood */}
       <img src={logo} alt="Logo efood" />
       {/* Container para logos das redes sociais */}
-      <S.Logos>
+      <Logos>
         {/* Logo do Instagram */}
         <img src={instagram} alt="Logo instagram" />
         {/* Logo do Facebook */}
         <img src={facebook} alt="Logo facebook" />
         {/* Logo do Twitter */}
         <img src={twitter} alt="Logo twitter" />
-      </S.Logos>
+      </Logos>
       {/* Texto explicativo sobre a responsabilidade da plataforma */}
       <p>
         A efood é uma plataforma para divulgação de estabelecimentos, a
@@ -28,7 +28,7 @@ const Footer = () => (
         estabelecimento contratado.
       </p>
     </div>
-  </S.FooterContainer>
+  </FooterContainer>
 )
 
 export default Footer

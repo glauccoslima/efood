@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import React, { useState } from 'react'
+=======
+import { useState } from 'react'
+>>>>>>> develop
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
+import { string as yupString, object as yupObject } from 'yup'
 
 import Loader from '../Loader'
 import Button from '../Button'
@@ -23,6 +27,7 @@ import { getTotalPrice, priceFormat } from '../../utils'
 
 import { usePurchaseMutation } from '../../services/api'
 
+// skipcq: JS-C1003
 import * as S from './styles'
 
 // Função para formatar o número do cartão de crédito em blocos de 4 dígitos
@@ -81,6 +86,7 @@ const Checkout: React.FC = () => {
       expiresMonth: '',
       expiresYear: ''
     },
+<<<<<<< HEAD
     validationSchema: Yup.object({
       receiver: Yup.string()
         .min(3, 'O nome do receptor precisa ter pelo menos 3 caracteres')
@@ -115,6 +121,41 @@ const Checkout: React.FC = () => {
         .max(2, 'O mês de vencimento deve ter 2 dígitos')
         .required('O campo é obrigatório'),
       expiresYear: Yup.string()
+=======
+    validationSchema: yupObject({
+      receiver: yupString()
+        .min(3, 'O nome do receptor precisa ter pelo menos 3 caracteres')
+        .required('O campo é obrigatório'),
+      adress: yupString()
+        .min(5, 'O endereço precisa ter pelo menos 5 caracteres')
+        .required('O campo é obrigatório'),
+      city: yupString()
+        .min(3, 'A cidade precisa ter pelo menos 3 caracteres')
+        .required('O campo é obrigatório'),
+      zipCode: yupString()
+        .min(9, 'O CEP precisa ter 8 caracteres')
+        .max(9, 'O CEP precisa ter 8 caracteres')
+        .required('O campo é obrigatório'),
+      number: yupString()
+        .min(1, 'O número precisa ter pelo menos um caractere')
+        .required('O campo é obrigatório'),
+      nameOnCard: yupString()
+        .min(5, 'O nome no cartão deve ter pelo menos 5 caracteres')
+        .required('O campo é obrigatório'),
+      cardNumber: yupString()
+        .min(19, 'O número do cartão deve ter 16 dígitos')
+        .max(19, 'O número do cartão deve ter 16 dígitos')
+        .required('O campo é obrigatório'),
+      cardSecurityCode: yupString()
+        .min(3, 'O código de segurança deve ter 3 dígitos')
+        .max(3, 'O código de segurança deve ter 3 dígitos')
+        .required('O campo é obrigatório'),
+      expiresMonth: yupString()
+        .min(2, 'O mês de vencimento deve ter 2 dígitos')
+        .max(2, 'O mês de vencimento deve ter 2 dígitos')
+        .required('O campo é obrigatório'),
+      expiresYear: yupString()
+>>>>>>> develop
         .min(4, 'O ano de vencimento deve ter 4 dígitos')
         .max(4, 'O ano de vencimento deve ter 4 dígitos')
         .required('O campo é obrigatório')
@@ -157,6 +198,19 @@ const Checkout: React.FC = () => {
     }
   })
 
+<<<<<<< HEAD
+=======
+  // Função para verificar se os campos obrigatórios estão preenchidos
+  const verifyFields = (fields: Array<keyof typeof form.values>) => {
+    for (const field of fields) {
+      if (!form.values[field]) {
+        return false
+      }
+    }
+    return true
+  }
+
+>>>>>>> develop
   // Função para mostrar a seção de pagamento
   const showInfosPayment = () => {
     if (verifyFields(['receiver', 'adress', 'city', 'zipCode', 'number'])) {
@@ -173,6 +227,7 @@ const Checkout: React.FC = () => {
     dispatch(openDelivery()) // Reabre a seção de entrega
   }
 
+<<<<<<< HEAD
   // Função para verificar se os campos obrigatórios estão preenchidos
   const verifyFields = (fields: Array<keyof typeof form.values>) => {
     let areFieldsCorrect = true
@@ -184,6 +239,8 @@ const Checkout: React.FC = () => {
     return areFieldsCorrect
   }
 
+=======
+>>>>>>> develop
   // Função para mostrar a seção de confirmação
   const showInfosConfirmation = () => {
     form.handleSubmit() // Submete o formulário corretamente
@@ -208,39 +265,94 @@ const Checkout: React.FC = () => {
   }
 
   return (
+    // skipcq: JS-0415
     <>
       <form onSubmit={form.handleSubmit}>
         {/* Seção de entrega */}
         <Container className={deliveryIsOpen ? 'is-open' : ''}>
           <Overlay onClick={closeCheckout} />
           <S.AsideCheckout>
+<<<<<<< HEAD
             <>
               <S.Title>Entrega</S.Title>
               {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+=======
+            <S.Title>Entrega</S.Title>
+            {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+            <S.InputGroup>
+              <label htmlFor="receiver">Quem irá receber</label>
+              <input
+                className={form.errors.receiver ? 'error' : ''}
+                type="text"
+                id="receiver"
+                name="receiver"
+                value={form.values.receiver}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+            </S.InputGroup>
+            <S.InputGroup>
+              <label htmlFor="adress">Endereço</label>
+              <input
+                className={form.errors.adress ? 'error' : ''}
+                type="text"
+                id="adress"
+                name="adress"
+                value={form.values.adress}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+            </S.InputGroup>
+            <S.InputGroup>
+              <label htmlFor="city">Cidade</label>
+              <input
+                className={form.errors.city ? 'error' : ''}
+                type="text"
+                id="city"
+                name="city"
+                value={form.values.city}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+            </S.InputGroup>
+            <S.Row>
+>>>>>>> develop
               <S.InputGroup>
-                <label htmlFor="receiver">Quem irá receber</label>
+                <label htmlFor="zipCode">CEP</label>
                 <input
+<<<<<<< HEAD
                   className={form.errors.receiver ? 'error' : ''}
+=======
+                  className={form.errors.zipCode ? 'error' : ''}
+>>>>>>> develop
                   type="text"
-                  id="receiver"
-                  name="receiver"
-                  value={form.values.receiver}
-                  onChange={form.handleChange}
+                  id="zipCode"
+                  name="zipCode"
+                  value={form.values.zipCode}
+                  onChange={(e) => {
+                    form.handleChange(e)
+                    form.setFieldValue('zipCode', formatZipCode(e.target.value))
+                  }}
                   onBlur={form.handleBlur}
                 />
               </S.InputGroup>
               <S.InputGroup>
-                <label htmlFor="adress">Endereço</label>
+                <label htmlFor="number">Número</label>
                 <input
+<<<<<<< HEAD
                   className={form.errors.adress ? 'error' : ''}
+=======
+                  className={form.errors.number ? 'error' : ''}
+>>>>>>> develop
                   type="text"
-                  id="adress"
-                  name="adress"
-                  value={form.values.adress}
+                  id="number"
+                  name="number"
+                  value={form.values.number}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
                 />
               </S.InputGroup>
+<<<<<<< HEAD
               <S.InputGroup>
                 <label htmlFor="city">Cidade</label>
                 <input
@@ -313,6 +425,36 @@ const Checkout: React.FC = () => {
                 Voltar para o carrinho
               </S.ButtonCheckout>
             </>
+=======
+            </S.Row>
+            <S.InputGroup>
+              <label htmlFor="complement">Complemento (opcional)</label>
+              <input
+                className={form.errors.complement ? 'error' : ''}
+                type="text"
+                id="complement"
+                name="complement"
+                value={form.values.complement}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+            </S.InputGroup>
+            <S.ButtonCheckout
+              title="Clique aqui para continuar com o pagamento"
+              type="button"
+              onClick={showInfosPayment}
+              $marginTop="24px"
+            >
+              Continuar com o pagamento
+            </S.ButtonCheckout>
+            <S.ButtonCheckout
+              title="Clique aqui para retornar ao carrinho"
+              type="button"
+              onClick={openCart}
+            >
+              Voltar para o carrinho
+            </S.ButtonCheckout>
+>>>>>>> develop
           </S.AsideCheckout>
         </Container>
 
