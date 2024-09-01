@@ -1,112 +1,120 @@
-import styled from 'styled-components' // Importa a biblioteca styled-components para criar componentes estilizados
-
-import { StandardButton } from '../Button/styles' // Importa o componente estilizado StandardButton
-import { breakpoints, colors } from '../../styles' // Importa os breakpoints e as cores definidas no arquivo de estilos
+import styled from 'styled-components'
+import { StandardButton } from '../Button/styles'
+import { breakpoints, colors } from '../../styles'
 
 // Estilo para o container do modal
 export const Modal = styled.div`
-  position: fixed; // Fixa o modal na tela
-  top: 0; // Posiciona o modal no topo
-  left: 0; // Posiciona o modal à esquerda
-  width: 100%; // Largura total da tela
-  height: 100%; // Altura total da tela
-  display: none; // Inicialmente, o modal não é exibido
-  align-items: center; // Alinha os itens ao centro verticalmente
-  justify-content: center; // Alinha os itens ao centro horizontalmente
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
 
   &.visible {
-    display: flex; // Exibe o modal quando a classe 'visible' é adicionada
+    display: flex;
   }
 
   .overlay {
-    position: fixed; // Fixa o overlay na tela
-    top: 0; // Posiciona o overlay no topo
-    left: 0; // Posiciona o overlay à esquerda
-    width: 100%; // Largura total da tela
-    height: 100%; // Altura total da tela
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.8
-    ); // Cor de fundo semitransparente para o overlay
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 `
 
 // Estilo para o conteúdo do modal
 export const ModalContent = styled.div`
-  display: flex; // Exibe os itens em flexbox
-  flex-direction: column; // Direção da flexbox em coluna
-  background-color: ${colors.darkPink}; // Cor de fundo do conteúdo do modal
-  z-index: 1; // Define a ordem de empilhamento
+  display: flex;
+  flex-direction: column;
+  background-color: ${colors.darkPink};
+  z-index: 1;
 
   header {
-    display: flex; // Exibe os itens em flexbox
-    justify-content: end; // Alinha os itens ao final
+    display: flex;
+    justify-content: end;
 
-    img {
-      width: 16px; // Largura da imagem
-      height: 16px; // Altura da imagem
-      margin: 8px; // Espaçamento ao redor da imagem
+    button {
+      background-color: ${colors.lightGray}; // Cor de fundo do botão
+      border: none; // Remove a borda padrão do botão
+      padding: 8px; // Espaçamento interno do botão
+      cursor: pointer; // Define o cursor como pointer ao passar sobre o botão
+
+      &:hover {
+        background-color: ${colors.pink}; // Cor de fundo ao passar o mouse
+      }
+
+      &:active {
+        background-color: ${colors.darkPink}; // Cor de fundo ao clicar
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
 `
 
 // Estilo para o conteúdo principal do modal
 export const Content = styled.div`
-  display: flex; // Exibe os itens em flexbox
-  margin: 0 32px 32px 32px; // Margem ao redor do conteúdo
+  display: flex;
+  margin: 0 32px 32px 32px;
 
   img {
-    margin-right: 24px; // Margem à direita da imagem
-    width: 280px; // Largura da imagem
-    height: 280px; // Altura da imagem
+    margin-right: 24px;
+    width: 280px;
+    height: 280px;
   }
 
   h4 {
-    color: ${colors.white}; // Cor do texto
-    font-size: 18px; // Tamanho da fonte
-    font-style: normal; // Estilo da fonte
-    font-weight: 900; // Peso da fonte
-    line-height: normal; // Altura da linha
+    color: ${colors.white};
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
   }
 
   p {
-    color: ${colors.white}; // Cor do texto
-    font-size: 14px; // Tamanho da fonte
-    font-style: normal; // Estilo da fonte
-    font-weight: 400; // Peso da fonte
-    line-height: 22px; // Altura da linha
-    margin: 16px 0; // Margem vertical
+    color: ${colors.white};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 16px 0;
   }
 
   ${StandardButton} {
-    padding: 4px 8px; // Espaçamento interno do botão
-    width: auto; // Largura automática
-    text-align: justify; // Alinhamento do texto justificado
+    padding: 4px 8px;
+    width: auto;
+    text-align: justify;
   }
 
   @media (max-width: ${breakpoints.tablet}) {
-    display: flex; // Exibe os itens em flexbox
-    flex-direction: column; // Direção da flexbox em coluna
-    align-items: center; // Alinha os itens ao centro
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     img {
-      margin: 0; // Remove a margem da imagem
+      margin: 0;
     }
 
     div {
-      display: flex; // Exibe os itens em flexbox
-      flex-direction: column; // Direção da flexbox em coluna
-      align-items: center; // Alinha os itens ao centro
-      text-align: justify; // Alinhamento do texto justificado
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: justify;
 
       h4 {
-        margin-top: 16px; // Margem superior do título
+        margin-top: 16px;
       }
 
       ${StandardButton} {
-        margin-top: 8px; // Margem superior do botão
+        margin-top: 8px;
       }
     }
   }

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import logo from '../../assets/images/logo.svg'
 
-import * as S from './styles'
+import { HeaderContainer, RestaurantLink } from './styles'
 
 // Componente de cabeçalho do site
 const Header = () => {
@@ -21,16 +21,16 @@ const Header = () => {
 
   return (
     // Container principal do cabeçalho
-    <S.HeaderContainer>
+    <HeaderContainer>
       <div className="container">
         {/* Link para a página de restaurantes */}
-        <S.RestaurantLink
+        <RestaurantLink
           title="Clique aqui para ir para a página de restaurantes"
           type="link"
           to={'/'}
         >
           Restaurantes
-        </S.RestaurantLink>
+        </RestaurantLink>
         {/* Logo da efood */}
         <h1>
           <img src={logo} alt="Logo efood" />
@@ -40,7 +40,7 @@ const Header = () => {
           {items.length} produto(s) no carrinho
         </button>
       </div>
-    </S.HeaderContainer>
+    </HeaderContainer>
   )
 }
 

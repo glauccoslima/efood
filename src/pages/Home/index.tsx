@@ -7,7 +7,7 @@ import { useGetRestaurantsQuery } from '../../services/api' // Importa o hook pa
 // Componente Home que representa a página inicial
 const Home = () => {
   // Faz a consulta para obter os dados dos restaurantes e o estado de carregamento
-  const { data: restaurants, isLoading } = useGetRestaurantsQuery()
+  const { data: restaurants, isLoading } = useGetRestaurantsQuery(undefined) // Passa 'undefined' como argumento
 
   return (
     <>

@@ -1,5 +1,5 @@
-// Importa todos os componentes estilizados do arquivo styles
-import * as S from './styles'
+// Importa os componentes estilizados necessários do arquivo styles
+import { StandardButton, LinkButton } from './styles'
 
 // Define o tipo das propriedades esperadas pelo componente Button
 type Props = {
@@ -17,17 +17,17 @@ const Button = ({ title, type, children, to, disabled, onClick }: Props) => {
   if (type === 'button' || type === 'submit') {
     // Retorna um botão padrão estilizado com as propriedades passadas
     return (
-      <S.StandardButton title={title} onClick={onClick} disabled={disabled}>
+      <StandardButton title={title} onClick={onClick} disabled={disabled}>
         {children} {/* Renderiza o conteúdo filho dentro do botão */}
-      </S.StandardButton>
+      </StandardButton>
     )
   }
   // Se o tipo for 'link', retorna um botão estilizado que utiliza o componente Link para navegação
   if (type === 'link' && to) {
     return (
-      <S.LinkButton title={title} to={to}>
+      <LinkButton title={title} to={to}>
         {children} {/* Renderiza o conteúdo filho dentro do botão */}
-      </S.LinkButton>
+      </LinkButton>
     )
   }
 

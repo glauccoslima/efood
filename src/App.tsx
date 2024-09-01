@@ -1,5 +1,8 @@
+import { FC } from 'react' // Importa apenas FC (Functional Component) explicitamente
 import { Provider } from 'react-redux' // Importa o componente Provider do react-redux para fornecer a store do Redux à aplicação
 import { BrowserRouter } from 'react-router-dom' // Importa o componente BrowserRouter do react-router-dom para gerenciar as rotas
+import { ToastContainer } from 'react-toastify' // Importa o ToastContainer do react-toastify
+import 'react-toastify/dist/ReactToastify.css' // Importa os estilos do react-toastify
 
 import Rotas from './routes' // Importa o componente Rotas que define as rotas da aplicação
 import Cart from './components/Cart' // Importa o componente Cart que exibe o carrinho de compras
@@ -11,7 +14,7 @@ import { store } from './store' // Importa a store configurada do Redux
 import { GlobalCSS } from './styles' // Importa os estilos globais da aplicação
 
 // Componente principal da aplicação
-function App() {
+const App: FC = () => {
   return (
     // Provider fornece a store do Redux para toda a aplicação
     <Provider store={store}>
@@ -29,6 +32,8 @@ function App() {
         <Checkout />
         {/* Modal exibe modais na aplicação */}
         <Modal />
+        {/* ToastContainer exibe notificações toast */}
+        <ToastContainer />
       </BrowserRouter>
     </Provider>
   )

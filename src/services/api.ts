@@ -44,7 +44,7 @@ const api = createApi({
   }),
   endpoints: (builder) => ({
     // Define o endpoint para obter a lista de restaurantes
-    getRestaurants: builder.query<RestaurantType[], void>({
+    getRestaurants: builder.query<RestaurantType[], undefined>({
       query: () => '' // Consulta sem parâmetros adicionais
     }),
 

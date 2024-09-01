@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit' // Importa funções para criar slices e definir ações com payload
+import { toast } from 'react-toastify' // Importa a função toast do react-toastify
+import 'react-toastify/dist/ReactToastify.css' // Importa os estilos do react-toastify
 
 // Define o tipo CartState que representa o estado do carrinho
 type CartState = {
@@ -26,8 +28,8 @@ const cartSlice = createSlice({
       if (!product) {
         state.items.push(action.payload)
       } else {
-        // Se o produto já estiver no carrinho, exibe um alerta
-        alert('O produto já foi adicionado ao carrinho!')
+        // Se o produto já estiver no carrinho, exibe uma notificação
+        toast.warn('O produto já foi adicionado ao carrinho!')
       }
     },
     // Redutor para remover um item do carrinho pelo ID

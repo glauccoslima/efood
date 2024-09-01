@@ -1,7 +1,7 @@
 import Loader from '../Loader' // Importa o componente Loader para exibir um indicador de carregamento
 import Product from '../Product' // Importa o componente Product para exibir os produtos
 
-import * as S from './styles' // Importa os estilos do componente
+import { ProductsSection, List } from './styles' // Importa os estilos específicos do componente
 
 // Define a tipagem das propriedades esperadas pelo componente
 export type Props = {
@@ -19,26 +19,25 @@ const ProductsList = ({ products, isLoading }: Props) => {
   // Renderiza a lista de produtos
   return (
     // Seção principal dos produtos
-    <S.ProductsSection>
+    <ProductsSection>
       <div className="container">
         {/* Lista de produtos */}
-        <S.List>
-          {products &&
-            products.map((product) => (
-              // Renderiza o componente Product para cada produto na lista
-              <Product
-                key={product.id} // Chave única para cada produto
-                id={product.id} // ID do produto
-                foto={product.foto} // Foto do produto
-                nome={product.nome} // Nome do produto
-                descricao={product.descricao} // Descrição do produto
-                preco={product.preco} // Preço do produto
-                porcao={product.porcao} // Porção do produto
-              />
-            ))}
-        </S.List>
+        <List>
+          {products?.map((product) => (
+            // Renderiza o componente Product para cada produto na lista
+            <Product
+              key={product.id} // Chave única para cada produto
+              id={product.id} // ID do produto
+              foto={product.foto} // Foto do produto
+              nome={product.nome} // Nome do produto
+              descricao={product.descricao} // Descrição do produto
+              preco={product.preco} // Preço do produto
+              porcao={product.porcao} // Porção do produto
+            />
+          ))}
+        </List>
       </div>
-    </S.ProductsSection>
+    </ProductsSection>
   )
 }
 
