@@ -18,6 +18,40 @@ export const RestaurantLink = styled(LinkButton)`
   position: relative; // Posição relativa
 `
 
+// Estilo para o botão do carrinho
+export const CartButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: ${colors.darkPink};
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+
+  svg {
+    font-size: 24px;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -11px;
+    right: -11px;
+    background-color: ${colors.darkPink};
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+`
+
 // Estilo para o container do cabeçalho
 export const HeaderContainer = styled.div`
   background-image: url(${header}); // Imagem de fundo do cabeçalho
@@ -30,17 +64,6 @@ export const HeaderContainer = styled.div`
     display: flex; // Exibe os itens em linha
     align-items: center; // Alinha os itens ao centro
     justify-content: space-between; // Espaça os itens igualmente
-
-    button {
-      width: 256px; // Largura fixa do botão
-      text-align: right; // Alinhamento do texto à direita
-      font-size: 18px; // Tamanho da fonte
-      font-weight: 900; // Peso da fonte
-      color: ${colors.darkPink}; // Cor do texto
-      background-color: transparent; // Fundo transparente
-      border: none; // Remove a borda padrão
-      cursor: pointer; // Cursor de ponteiro ao passar sobre o botão
-    }
 
     h1 {
       line-height: 0; // Altura da linha zero para o título
@@ -60,7 +83,7 @@ export const HeaderContainer = styled.div`
         margin: 16px 0; // Espaçamento vertical para a imagem
       }
 
-      button {
+      ${CartButton} {
         text-align: center; // Alinhamento centralizado do texto no botão
       }
     }

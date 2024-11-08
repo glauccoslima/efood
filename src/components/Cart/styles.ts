@@ -4,42 +4,39 @@ import { colors } from '../../styles'
 
 // Container principal que cobre toda a tela e contém o carrinho
 export const Container = styled.div`
-  position: fixed; // Fixa o container na tela
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: none; // Inicialmente escondido
-  justify-content: flex-end; // Alinha o conteúdo à direita
-  z-index: 1; // Garante que o container fique acima de outros elementos
+  display: none;
+  justify-content: flex-end;
+  z-index: 1;
 
-  // Classe que torna o container visível quando o carrinho está aberto
   &.is-open {
     display: flex;
   }
 `
 
-// Overlay que cobre a tela quando o carrinho está aberto
 export const Overlay = styled.div`
-  position: absolute; // Posiciona o overlay sobre toda a tela
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #000; // Cor de fundo preta
-  opacity: 0.8; // Transparência do overlay
+  background-color: #000;
+  opacity: 0.8;
 `
 
-// Container lateral que contém os itens do carrinho
 export const Aside = styled.aside`
-  width: 360px; // Largura fixa do carrinho
-  height: 100%; // Altura total da tela
-  background-color: ${colors.darkPink}; // Cor de fundo do carrinho
-  z-index: 1; // Garante que o carrinho fique acima do overlay
-  padding: 32px 8px 64px 8px; // Espaçamento interno
-  overflow-y: auto; // Permite rolagem vertical
+  width: 360px;
+  height: 100%;
+  background-color: ${colors.darkPink};
+  z-index: 1;
+  padding: 32px 8px 64px 8px;
+  overflow-y: auto;
+  position: relative;
 
-  // Estilo para o texto exibido quando o carrinho está vazio
   .empty-text {
     font-weight: bold;
     font-size: 14px;
@@ -49,23 +46,20 @@ export const Aside = styled.aside`
   }
 `
 
-// Estilo para cada item do carrinho
 export const CartItem = styled.li`
-  background-color: ${colors.pink}; // Cor de fundo do item
-  padding: 8px 8px 12px 8px; // Espaçamento interno
-  margin-bottom: 16px; // Espaçamento inferior entre os itens
-  display: flex; // Exibe o conteúdo em linha
-  position: relative; // Permite posicionamento absoluto do botão de remoção
+  background-color: ${colors.pink};
+  padding: 8px 8px 12px 8px;
+  margin-bottom: 16px;
+  display: flex;
+  position: relative;
 
-  // Estilo para a imagem do item
   img {
     height: 80px;
     width: 80px;
-    object-fit: cover; // Ajusta a imagem para cobrir o espaço
-    margin-right: 8px; // Espaçamento à direita da imagem
+    object-fit: cover;
+    margin-right: 8px;
   }
 
-  // Estilo para o título do item
   h3 {
     color: ${colors.darkPink};
     text-align: center;
@@ -75,7 +69,6 @@ export const CartItem = styled.li`
     margin-bottom: 16px;
   }
 
-  // Estilo para o preço do item
   span {
     color: ${colors.darkPink};
     font-size: 14px;
@@ -84,29 +77,50 @@ export const CartItem = styled.li`
     line-height: 22px;
   }
 
-  // Estilo para o botão de remoção do item
   button {
-    background-image: url(${garbage}); // Ícone de remoção
-    position: absolute; // Posiciona o botão no canto inferior direito
+    background-image: url(${garbage});
+    position: absolute;
     width: 16px;
     height: 16px;
-    background-color: transparent; // Fundo transparente
+    background-color: transparent;
     bottom: 8px;
     right: 8px;
-    border: none; // Remove a borda padrão
-    cursor: pointer; // Cursor de ponteiro ao passar sobre o botão
+    border: none;
+    cursor: pointer;
   }
 `
 
-// Estilo para o conteúdo que exibe o preço total
 export const PriceContent = styled.div`
-  display: flex; // Exibe o conteúdo em linha
-  justify-content: space-between; // Espaça os elementos igualmente
-  margin-bottom: 16px; // Espaçamento inferior
-  margin-top: 40px; // Espaçamento superior
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  margin-top: 40px;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
-  color: ${colors.pink}; // Cor do texto
+  color: ${colors.pink};
+`
+
+// Novo estilo para o botão de fechar com imagem
+export const CloseButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 8px;
+  padding: 8px;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background-color: ${colors.pink};
+  }
+
+  &:active {
+    background-color: ${colors.darkPink};
+  }
 `

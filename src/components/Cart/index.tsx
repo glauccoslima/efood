@@ -8,7 +8,17 @@ import { close, remove } from '../../store/reducers/cart'
 import { openDelivery } from '../../store/reducers/checkout'
 
 // Importações explícitas dos componentes de estilo
-import { Container, Overlay, Aside, CartItem, PriceContent } from './styles'
+import {
+  Container,
+  Overlay,
+  Aside,
+  CartItem,
+  PriceContent,
+  CloseButton
+} from './styles'
+
+// Importe o ícone de fechar
+import closeImg from '../../assets/images/close.png' // Ajuste o caminho do ícone conforme necessário
 
 // Componente principal do carrinho de compras
 const Cart = () => {
@@ -48,6 +58,10 @@ const Cart = () => {
       {/* Overlay para fechar o carrinho ao clicar fora */}
       <Overlay onClick={closeCart} />
       <Aside>
+        {/* Botão para fechar o carrinho com ícone de imagem */}
+        <CloseButton onClick={closeCart} aria-label="Fechar carrinho">
+          <img src={closeImg} alt="Ícone de fechar" />
+        </CloseButton>
         {items.length > 0 ? (
           <>
             {/* Lista de itens no carrinho */}

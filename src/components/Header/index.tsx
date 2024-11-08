@@ -4,8 +4,9 @@ import { open } from '../../store/reducers/cart'
 import { useDispatch, useSelector } from 'react-redux'
 
 import logo from '../../assets/images/logo.svg'
+import { FaShoppingCart } from 'react-icons/fa'
 
-import { HeaderContainer, RestaurantLink } from './styles'
+import { HeaderContainer, RestaurantLink, CartButton } from './styles'
 
 // Componente de cabeçalho do site
 const Header = () => {
@@ -36,9 +37,16 @@ const Header = () => {
           <img src={logo} alt="Logo efood" />
         </h1>
         {/* Botão para abrir o carrinho, exibindo a quantidade de itens */}
-        <button onClick={openCart}>
-          {items.length} produto(s) no carrinho
-        </button>
+        <CartButton
+          onClick={openCart}
+          aria-label={`Carrinho com ${items.length} produto(s)`}
+        >
+          <FaShoppingCart />
+          <span>Carrinho</span>
+          {items.length > 0 && (
+            <span className="cart-badge">{items.length}</span>
+          )}
+        </CartButton>
       </div>
     </HeaderContainer>
   )
